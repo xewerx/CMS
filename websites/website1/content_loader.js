@@ -1,3 +1,9 @@
+const cmsConfig = {
+    apiUrl: 'http://localhost:8080',
+    websiteId: 1,
+    publicKey: 'public_key',
+}
+
 // PLAN
 // get data from database using public key
 // replace html content with new content
@@ -57,231 +63,6 @@ const exampleApiResponse = [
                     {
                         type: 'text',
                         value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA',
-                        path: 'div > h5'
-                    },
-                    {
-                        type: 'text',
-                        value: 'PYSZNY BURGER',
-                        path: 'div > p'
-                    },
-                    {
-                        type: 'text',
-                        value: '$2202',
-                        path: 'div > h6'
-                    },
-                ]
-            },
-            {
-                type: 'container',
-                elements: [
-                    {
-                        type: 'image',
-                        value: 'images/f2.png',
-                        path: 'div > img'
-                    },
-                    {
-                        type: 'text',
-                        value: 'DELICIOUS PIZZA22',
                         path: 'div > h5'
                     },
                     {
@@ -419,7 +200,16 @@ const handleContainer = (item, targetElement) => {
 }
 
 
-const loadContent = () => {
+const loadContent = async () => {
+    const response = await fetch(`${cmsConfig.apiUrl}/websites/${cmsConfig.websiteId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${cmsConfig.publicKey}`,
+        },
+    });
+    const data = await response.json();
+    console.log(data);
+    
     for (const content of exampleApiResponse) {
         if (content.type === 'text') {
             handleText(content);
@@ -433,4 +223,6 @@ const loadContent = () => {
     }
 }
 
-loadContent();
+(async () => {
+    await loadContent();
+})();
