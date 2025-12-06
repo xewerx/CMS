@@ -1,20 +1,18 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 
 	"api/handlers"
-	"api/middleware"
+	middleware "api/middlewares"
 )
 
 func NewRouter() *mux.Router {
 	router := mux.NewRouter()
 
 	// Middlewares
-	fmt.Println("Adding Logging Middleware")
 	router.Use(middleware.LoggingMiddleware)
 	router.Use(middleware.CorsMiddleware)
 
@@ -24,7 +22,10 @@ func NewRouter() *mux.Router {
 	})
 
 	// Routes
+	router.HandleFunc("/websites", handlers.CreateWebsiteHandler).Methods("POST")
 	router.HandleFunc("/websites/{websiteId}", handlers.GetWebsiteHandler).Methods("GET")
+	router.HandleFunc("/websites/{websiteId}", handlers.DeleteWebsiteHandler).Methods("DELETE")
+	router.HandleFunc("/websites/{websiteId}", handlers.UpdateWebsiteHandler).Methods("PATCH")
 
 	return router
 }
