@@ -4,6 +4,6 @@ Content management system that can be connected to arbitrary chosen website / we
 
 # TODO:
 
-- body validation
 - authentication and authotization
 - admin panel
+- api tests
