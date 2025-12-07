@@ -11,8 +11,7 @@ import (
 )
 
 // TODO: move it to database
-var website dto.WebsiteDto = dto.WebsiteDto{
-	ID:   1,
+var website = dto.CreateWebsiteDto{
 	Name: "Website 1",
 	Content: []dto.Content{
 		{
@@ -124,6 +123,15 @@ func GetWebsiteHandler(w http.ResponseWriter, r *http.Request) {
 	website, err := repositories.GetWebsiteById(websiteId)
 
 	if err != nil {
+		if err == repositories.ErrNotFound {
+			http.Error(w, "Website not found", http.StatusNotFound)
+			return
+		}
+		if err == repositories.ErrInvalidObjectId {
+			http.Error(w, "Website not found", http.StatusNotFound)
+			return
+		}
+
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
