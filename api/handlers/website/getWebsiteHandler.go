@@ -1,4 +1,4 @@
-package handlers
+package websiteHandlers
 
 import (
 	"api/dto"

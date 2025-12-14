@@ -1,25 +1,22 @@
-package handlers
+package websiteHandlers
 
 import (
 	"api/dto"
-	"api/handlers/validation"
+	websiteValidation "api/handlers/website/validation"
 	"api/models"
 	"api/repositories"
+
 	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/gorilla/mux"
 )
 
-func UpdateWebsiteHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	websiteId := vars["websiteId"]
+func CreateWebsiteHandler(w http.ResponseWriter, r *http.Request) {
+	websiteValidator := websiteValidation.GetCreateWebsiteValidator()
 
-	websiteValidator := validation.GetUpdateWebsiteValidator()
-
-	var body dto.UpdateWebsiteDto
+	var body dto.CreateWebsiteDto
 
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
@@ -41,20 +38,10 @@ func UpdateWebsiteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var updatedWebsite = models.FromUpdateWebsiteDto(body)
+	website := models.FromCreateWebsiteDto(body)
 
-	err := repositories.UpdateWebsiteById(websiteId, updatedWebsite)
+	err := repositories.CreateWebsite(website)
 	if err != nil {
-		if err == repositories.ErrNotFound {
-			http.Error(w, "Website not found", http.StatusNotFound)
-			return
-		}
-
-		if err == repositories.ErrInvalidObjectId {
-			http.Error(w, "Invalid ObjectId", http.StatusBadRequest)
-			return
-		}
-
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

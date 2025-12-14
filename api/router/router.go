@@ -5,7 +5,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"api/handlers"
+	authHandlers "api/handlers/auth"
+	websiteHandlers "api/handlers/website"
 	middleware "api/middlewares"
 )
 
@@ -22,10 +23,16 @@ func NewRouter() *mux.Router {
 	})
 
 	// Routes
-	router.HandleFunc("/websites", handlers.CreateWebsiteHandler).Methods("POST")
-	router.HandleFunc("/websites/{websiteId}", handlers.GetWebsiteHandler).Methods("GET")
-	router.HandleFunc("/websites/{websiteId}", handlers.DeleteWebsiteHandler).Methods("DELETE")
-	router.HandleFunc("/websites/{websiteId}", handlers.UpdateWebsiteHandler).Methods("PATCH")
+	websitesRouter := router.PathPrefix("/websites").Subrouter()
+	websitesRouter.Use(middleware.AuthMiddleware)
+
+	websitesRouter.HandleFunc("/", websiteHandlers.CreateWebsiteHandler).Methods("POST")
+	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.GetWebsiteHandler).Methods("GET")
+	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.DeleteWebsiteHandler).Methods("DELETE")
+	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.UpdateWebsiteHandler).Methods("PATCH")
+
+	authRouter := router.PathPrefix("/auth").Subrouter()
+	authRouter.HandleFunc("/login", authHandlers.LoginHandler).Methods("POST")
 
 	return router
 }

@@ -4,16 +4,10 @@ import (
 	"api/database"
 	"api/models"
 	"context"
-	"errors"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-)
-
-var (
-	ErrNotFound        = errors.New("not found")
-	ErrInvalidObjectId = errors.New("invalid object id")
 )
 
 func CreateWebsite(website models.Website) error {

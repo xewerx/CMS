@@ -20,7 +20,6 @@ func ConnectMongo(uri string) {
 		log.Fatal("🔥 MongoDB connection error:", err)
 	}
 
-	// Ping — sprawdza czy baza żyje
 	err = client.Ping(ctx, nil)
 	if err != nil {
 		log.Fatal("🔥 MongoDB ping error:", err)

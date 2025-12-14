@@ -1,4 +1,4 @@
-package validation
+package websiteValidation
 
 import (
 	"api/dto"
