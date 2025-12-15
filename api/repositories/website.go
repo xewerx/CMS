@@ -74,3 +74,24 @@ func UpdateWebsiteById(id string, website models.Website) error {
 
 	return nil
 }
+
+func GetWebsitesByUserId(userId string) ([]models.Website, error) {
+	collection := database.MongoClient.Database("website").Collection("websites")
+	cursor, err := collection.Find(context.Background(), bson.M{"redactors": bson.M{"$in": []string{userId}}})
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(context.Background())
+
+	var websites []models.Website
+	for cursor.Next(context.Background()) {
+		var website models.Website
+		err = cursor.Decode(&website)
+		if err != nil {
+			return nil, err
+		}
+		websites = append(websites, website)
+	}
+
+	return websites, nil
+}

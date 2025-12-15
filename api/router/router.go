@@ -26,7 +26,8 @@ func NewRouter() *mux.Router {
 	websitesRouter := router.PathPrefix("/websites").Subrouter()
 	websitesRouter.Use(middleware.AuthMiddleware)
 
-	websitesRouter.HandleFunc("/", websiteHandlers.CreateWebsiteHandler).Methods("POST")
+	websitesRouter.HandleFunc("", websiteHandlers.CreateWebsiteHandler).Methods("POST")
+	websitesRouter.HandleFunc("", websiteHandlers.GetWebsitesHandler).Methods("GET")
 	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.GetWebsiteHandler).Methods("GET")
 	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.DeleteWebsiteHandler).Methods("DELETE")
 	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.UpdateWebsiteHandler).Methods("PATCH")

@@ -19,3 +19,8 @@ type CreateWebsiteDto struct {
 	Content   []Content `json:"content" validate:"required,dive,content"`
 	Redactors []string  `json:"redactors" validate:"required,min=1,dive,required"`
 }
+
+type GetWebsitesDto struct {
+	ID   string `json:"id,omitempty"`
+	Name string `json:"name"`
+}
