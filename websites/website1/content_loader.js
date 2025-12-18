@@ -1,7 +1,6 @@
 const cmsConfig = {
     apiUrl: 'http://localhost:8080',
     websiteId: 1,
-    publicKey: 'public_key',
 }
 
 const handleText = (item) => {
@@ -101,7 +100,6 @@ const loadContent = async () => {
     const response = await fetch(`${cmsConfig.apiUrl}/websites/${cmsConfig.websiteId}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${cmsConfig.publicKey}`,
         },
     });
     const data = await response.json();
