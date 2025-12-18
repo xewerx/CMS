@@ -1,6 +1,6 @@
 const cmsConfig = {
-    apiUrl: 'http://localhost:8080',
-    websiteId: 1,
+    apiUrl: 'http://localhost:3000',
+    websiteId: '6935afa33a89190c80a56d53',
 }
 
 const handleText = (item) => {

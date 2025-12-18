@@ -23,14 +23,21 @@ func NewRouter() *mux.Router {
 	})
 
 	// Routes
-	websitesRouter := router.PathPrefix("/websites").Subrouter()
-	websitesRouter.Use(middleware.AuthMiddleware)
+	publicWebsites := router.PathPrefix("/websites").Subrouter()
+	publicWebsites.HandleFunc("/{websiteId}", websiteHandlers.GetWebsiteHandler).
+		Methods("GET")
 
-	websitesRouter.HandleFunc("", websiteHandlers.CreateWebsiteHandler).Methods("POST")
-	websitesRouter.HandleFunc("", websiteHandlers.GetWebsitesHandler).Methods("GET")
-	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.GetWebsiteHandler).Methods("GET")
-	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.DeleteWebsiteHandler).Methods("DELETE")
-	websitesRouter.HandleFunc("/{websiteId}", websiteHandlers.UpdateWebsiteHandler).Methods("PATCH")
+	protectedWebsites := router.PathPrefix("/websites").Subrouter()
+	protectedWebsites.Use(middleware.AuthMiddleware)
+
+	protectedWebsites.HandleFunc("", websiteHandlers.CreateWebsiteHandler).
+		Methods("POST")
+	protectedWebsites.HandleFunc("", websiteHandlers.GetWebsitesHandler).
+		Methods("GET")
+	protectedWebsites.HandleFunc("/{websiteId}", websiteHandlers.DeleteWebsiteHandler).
+		Methods("DELETE")
+	protectedWebsites.HandleFunc("/{websiteId}", websiteHandlers.UpdateWebsiteHandler).
+		Methods("PATCH")
 
 	authRouter := router.PathPrefix("/auth").Subrouter()
 	authRouter.HandleFunc("/login", authHandlers.LoginHandler).Methods("POST")
