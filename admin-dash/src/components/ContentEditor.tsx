@@ -41,7 +41,7 @@ interface ContentEditorProps {
   showRemove?: boolean
 }
 
-function ContentEditor({ content, onChange, level = 0, onRemove, showRemove = false }: ContentEditorProps) {
+function ContentEditor({ content, onChange, level = 0 }: ContentEditorProps) {
   const [expanded, setExpanded] = useState(false)
   const [addMenuAnchor, setAddMenuAnchor] = useState<null | HTMLElement>(null)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
@@ -51,13 +51,6 @@ function ContentEditor({ content, onChange, level = 0, onRemove, showRemove = fa
     onChange({
       ...content,
       value: newValue,
-    })
-  }
-
-  const handlePathChange = (newPath: string) => {
-    onChange({
-      ...content,
-      path: newPath,
     })
   }
 
@@ -72,14 +65,44 @@ function ContentEditor({ content, onChange, level = 0, onRemove, showRemove = fa
   }
 
   const handleAddElement = (type: Content['type']) => {
-    const newElement: Content = {
+    let newElement: Content = {
       type,
       value: '',
     }
 
-    // Add elements array for container and list types
-    if (type === 'container' || type === 'list') {
-      newElement.elements = []
+    // For lists, if there are existing elements, use the same type as the first element
+    if (content.type === 'list' && content.elements && content.elements.length > 0) {
+      const firstElement = content.elements[0]
+      newElement.type = firstElement.type
+      
+      // If it's a list of containers, copy the structure from the first container
+      if (firstElement.type === 'container' && firstElement.elements) {
+        // Deep copy the structure but with empty values
+        const copyStructure = (el: Content): Content => {
+          const copied: Content = {
+            type: el.type,
+            value: '',
+            ...(el.id ? { id: el.id } : {}),
+            ...(el.path ? { path: el.path } : {}),
+          }
+          
+          // Recursively copy nested elements if they exist
+          if (el.elements && el.elements.length > 0) {
+            copied.elements = el.elements.map(copyStructure)
+          }
+          
+          return copied
+        }
+        
+        newElement.elements = firstElement.elements.map(copyStructure)
+      }
+      // For non-container types (text, image), the type is already set above
+    } else {
+      // For containers or empty lists, use the selected type
+      // Add elements array for container and list types when creating new
+      if (type === 'container' || type === 'list') {
+        newElement.elements = []
+      }
     }
 
     // Automatically inherit path from parent list if available
@@ -136,7 +159,14 @@ function ContentEditor({ content, onChange, level = 0, onRemove, showRemove = fa
   }
 
   const handleAddClick = (event: React.MouseEvent<HTMLElement>) => {
-    // Show menu to select type for both lists and containers
+    // For lists with existing elements, add directly without showing menu
+    if (content.type === 'list' && content.elements && content.elements.length > 0) {
+      const firstElementType = content.elements[0].type
+      handleAddElement(firstElementType)
+      return
+    }
+    
+    // Show menu to select type for containers or empty lists
     setAddMenuAnchor(event.currentTarget)
   }
 
@@ -195,7 +225,7 @@ function ContentEditor({ content, onChange, level = 0, onRemove, showRemove = fa
       }}
     >
       <Accordion
-        expanded={expanded || level === 0}
+        expanded={expanded}
         onChange={() => setExpanded(!expanded)}
         sx={{
           '&:before': { display: 'none' },
@@ -203,7 +233,7 @@ function ContentEditor({ content, onChange, level = 0, onRemove, showRemove = fa
         }}
       >
         <AccordionSummary
-          expandIcon={isNested ? <ExpandMoreIcon /> : null}
+          expandIcon={<ExpandMoreIcon />}
           sx={{
             backgroundColor: 'grey.50',
             '&:hover': {
@@ -370,20 +400,6 @@ function ContentEditor({ content, onChange, level = 0, onRemove, showRemove = fa
               </Box>
             )}
 
-            {/* Remove button for this element (only for list and container types) */}
-            {showRemove && onRemove && (content.type === 'list' || content.type === 'container') && (
-              <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  size="small"
-                  startIcon={<DeleteIcon />}
-                  onClick={onRemove}
-                >
-                  Remove Element
-                </Button>
-              </Box>
-            )}
 
             {/* Add Element Menu */}
             <Menu
