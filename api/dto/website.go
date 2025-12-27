@@ -24,3 +24,9 @@ type GetWebsitesDto struct {
 	ID   string `json:"id,omitempty"`
 	Name string `json:"name"`
 }
+
+type GetWebsiteDto struct {
+	ID      string    `json:"id,omitempty"`
+	Name    string    `json:"name"`
+	Content []Content `json:"content"`
+}

@@ -28,7 +28,7 @@ const handleList = (item) => {
         return;
     }
 
-    const targetElements = container.querySelectorAll(item.path)
+    const targetElements = item.path ? container.querySelectorAll(item.path) : container.children;
 
     // replace existing elements
     for (let i = 0; i < targetElements.length; i++) {

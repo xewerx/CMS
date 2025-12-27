@@ -36,14 +36,14 @@
 
   <div class="hero_area">
     <div class="bg-box">
-      <img src="images/hero-bg.jpg" alt="">
+      <img id="cmsImage1" src="images/hero-bg.jpg" alt="">
     </div>
     <!-- header section strats -->
     <header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.html">
-            <span>
+            <span id="cmsText1">
               Feane
             </span>
           </a>
@@ -53,7 +53,7 @@
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav  mx-auto ">
+            <ul class="navbar-nav  mx-auto " id="cmsHeaderNav">
               <li class="nav-item active">
                 <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
               </li>
@@ -225,7 +225,7 @@
   <section class="offer_section layout_padding-bottom">
     <div class="offer_container">
       <div class="container ">
-        <div class="row">
+        <div class="row" id="cmsDiscountsList">
           <div class="col-md-6  ">
             <div class="box ">
               <div class="img-box">
@@ -390,7 +390,7 @@
       </ul>
 
       <div class="filters-content">
-        <div class="row grid">
+        <div class="row grid" id="cmsFoodList">
           <div class="col-sm-6 col-lg-4 all pizza">
             <div class="box">
               <div>
@@ -1193,7 +1193,7 @@
         </h2>
       </div>
       <div class="carousel-wrap row ">
-        <div class="owl-carousel client_owl-carousel">
+        <div class="owl-carousel client_owl-carousel" id="cmsCustomerOpinionsList">
           <div class="item">
             <div class="box">
               <div class="detail-box">
@@ -1242,7 +1242,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 footer-col">
-          <div class="footer_contact">
+          <div class="footer_contact" id="cmsContactDetails">
             <h4>
               Contact Us
             </h4>
@@ -1340,6 +1340,8 @@
   </script>
   <!-- End Google Map -->
 
+  
+  <script src="content_loader.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,302 @@
+[
+  {
+    "id": "cmsText1",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "BurgerHouse"
+  },
+  {
+    "id": "cmsImage1",
+    "path": "",
+    "elements": null,
+    "type": "image",
+    "value": "images/hero-bg.jpg"
+  },
+  {
+    "id": "cmsHeaderNav",
+    "path": "li > a",
+    "elements": [
+      {
+        "elements": null,
+        "id": "",
+        "path": "",
+        "type": "text",
+        "value": "Home"
+      },
+      {
+        "elements": null,
+        "path": "",
+        "id": "",
+        "value": "Home",
+        "type": "text"
+      },
+      {
+        "elements": null,
+        "path": "",
+        "id": "",
+        "value": "Menu",
+        "type": "text"
+      },
+      {
+        "elements": null,
+        "path": "",
+        "id": "",
+        "value": "About",
+        "type": "text"
+      }
+    ],
+    "type": "list",
+    "value": ""
+  },
+  {
+    "elements": [
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "elements": null,
+            "type": "image",
+            "path": "div > img",
+            "value": "images/f2.png",
+            "id": ""
+          },
+          {
+            "elements": null,
+            "type": "text",
+            "path": "div > h5",
+            "value": "DELICIOUS BURGER",
+            "id": ""
+          },
+          {
+            "elements": null,
+            "type": "text",
+            "path": "div > p",
+            "value": "Burger jest bardzo pyszny",
+            "id": ""
+          },
+          {
+            "elements": null,
+            "type": "text",
+            "path": "div > h6",
+            "value": "$22",
+            "id": ""
+          }
+        ]
+      },
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "type": "image",
+            "value": "images/f1.png",
+            "elements": null,
+            "id": "",
+            "path": "div > img"
+          },
+          {
+            "type": "text",
+            "value": "DELICIOUS PIZZA",
+            "elements": null,
+            "id": "",
+            "path": "div > h5"
+          },
+          {
+            "type": "text",
+            "value": "Pizza jest bardzo pyszna",
+            "elements": null,
+            "id": "",
+            "path": "div > p"
+          },
+          {
+            "type": "text",
+            "value": "$32",
+            "elements": null,
+            "id": "",
+            "path": "div > h6"
+          }
+        ]
+      }
+    ],
+    "path": "div > .box > div",
+    "id": "cmsFoodList",
+    "value": "",
+    "type": "list"
+  },
+  {
+    "elements": [
+      {
+        "type": "text",
+        "value": "Contact Us Bro",
+        "elements": null,
+        "id": "",
+        "path": "h4"
+      },
+      {
+        "type": "text",
+        "value": "Location here",
+        "elements": null,
+        "id": "",
+        "path": "div > a > span"
+      },
+      {
+        "type": "text",
+        "value": "Call here +01 1234567890",
+        "elements": null,
+        "id": "",
+        "path": "div > a > span"
+      },
+      {
+        "type": "text",
+        "value": "email@gmail.com",
+        "elements": null,
+        "id": "",
+        "path": "div > a > span"
+      }
+    ],
+    "path": "",
+    "id": "cmsContactDetails",
+    "value": "",
+    "type": "container"
+  },
+  {
+    "elements": [
+      {
+        "elements": [
+          {
+            "type": "text",
+            "value": "Tasty Thursdays2",
+            "path": "div > h5",
+            "id": "",
+            "elements": null
+          },
+          {
+            "type": "text",
+            "value": "20% Off",
+            "path": "div > h6",
+            "id": "",
+            "elements": null
+          },
+          {
+            "type": "image",
+            "value": "images/o1.jpg",
+            "path": "div > img",
+            "id": "",
+            "elements": null
+          }
+        ],
+        "type": "container"
+      },
+      {
+        "elements": [
+          {
+            "type": "text",
+            "value": "Pizza Days",
+            "path": "div > h5",
+            "id": "",
+            "elements": null
+          },
+          {
+            "type": "text",
+            "value": "15% Off",
+            "path": "div > h6",
+            "id": "",
+            "elements": null
+          },
+          {
+            "type": "image",
+            "value": "images/o2.jpg",
+            "path": "div > img",
+            "id": "",
+            "elements": null
+          }
+        ],
+        "type": "container"
+      }
+    ],
+    "path": "div > .box",
+    "id": "cmsDiscountsList",
+    "value": "",
+    "type": "list"
+  },
+  {
+    "elements": [
+      {
+        "elements": [
+          {
+            "id": "",
+            "path": ".detail-box > p",
+            "elements": null,
+            "type": "text",
+            "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
+          },
+          {
+            "id": "",
+            "path": ".detail-box > h6",
+            "elements": null,
+            "type": "text",
+            "value": "Ola Nowak1"
+          },
+          {
+            "id": "",
+            "path": ".img-box > img",
+            "elements": null,
+            "type": "image",
+            "value": "images/client1.jpg"
+          },
+          {
+            "elements": null,
+            "path": ".detail-box > p:nth-of-type(2)",
+            "id": "",
+            "value": "bar",
+            "type": "text"
+          }
+        ],
+        "type": "container"
+      },
+      {
+        "elements": [
+          {
+            "id": "",
+            "path": ".detail-box > p",
+            "elements": null,
+            "type": "text",
+            "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
+          },
+          {
+            "elements": null,
+            "path": ".detail-box > h6",
+            "id": "",
+            "value": "Ola Nowak2",
+            "type": "text"
+          },
+          {
+            "elements": null,
+            "path": ".img-box > img",
+            "id": "",
+            "value": "images/client2.jpg",
+            "type": "image"
+          },
+          {
+            "elements": null,
+            "path": ".detail-box > p:nth-of-type(2)",
+            "id": "",
+            "value": "foo",
+            "type": "text"
+          }
+        ],
+        "type": "container"
+      }
+    ],
+    "id": "cmsCustomerOpinionsList",
+    "path": ".owl-stage > div",
+    "type": "list",
+    "value": ""
+  }
+]

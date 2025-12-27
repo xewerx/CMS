@@ -57,6 +57,32 @@ func FromContent(c dto.Content) Content {
 	}
 }
 
+func ToWebsiteDto(w Website) dto.GetWebsiteDto {
+	return dto.GetWebsiteDto{
+		ID:      w.ID,
+		Name:    w.Name,
+		Content: ToContentList(w.Content),
+	}
+}
+
+func ToContentDto(c Content) dto.Content {
+	return dto.Content{
+		Type:     c.Type,
+		ID:       c.ID,
+		Value:    c.Value,
+		Path:     c.Path,
+		Elements: ToContentList(c.Elements),
+	}
+}
+
+func ToContentList(list []Content) []dto.Content {
+	out := make([]dto.Content, 0)
+	for _, c := range list {
+		out = append(out, ToContentDto(c))
+	}
+	return out
+}
+
 func FromContentList(list []dto.Content) []Content {
 	out := make([]Content, 0)
 	for _, c := range list {

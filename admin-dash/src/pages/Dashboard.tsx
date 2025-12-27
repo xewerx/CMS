@@ -15,23 +15,32 @@ import {
   Container,
   Avatar,
   Chip,
+  CircularProgress,
+  Alert,
+  Snackbar,
 } from '@mui/material'
 import {
   Logout as LogoutIcon,
   Web as WebIcon,
   Person as PersonIcon,
+  Save as SaveIcon,
 } from '@mui/icons-material'
+import { fetchWebsites, fetchWebsiteDetail, updateWebsite, getCurrentUserId } from '../utils/api'
+import type { Website, WebsiteDetail, Content } from '../types/website'
+import ContentEditor from '../components/ContentEditor'
 
 const DRAWER_WIDTH = 280
 
-interface Website {
-  id: string
-  name: string
-}
-
 function Dashboard() {
   const [username, setUsername] = useState<string>('')
+  const [websites, setWebsites] = useState<Website[]>([])
   const [selectedWebsite, setSelectedWebsite] = useState<string | null>(null)
+  const [websiteDetail, setWebsiteDetail] = useState<WebsiteDetail | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [loadingDetail, setLoadingDetail] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -52,9 +61,22 @@ function Dashboard() {
       return
     }
 
-    // TODO: Fetch websites from API when endpoint is available
-    // For now, using mock data
+    // Fetch websites from API
+    loadWebsites()
   }, [navigate])
+
+  const loadWebsites = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await fetchWebsites()
+      setWebsites(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load websites')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken')
@@ -62,18 +84,62 @@ function Dashboard() {
     navigate('/login')
   }
 
-  const handleWebsiteSelect = (websiteId: string) => {
+  const handleWebsiteSelect = async (websiteId: string) => {
     setSelectedWebsite(websiteId)
-    // TODO: Load website content for editing
+    setWebsiteDetail(null)
+    setError(null)
+    setLoadingDetail(true)
+
+    try {
+      const detail = await fetchWebsiteDetail(websiteId)
+      setWebsiteDetail(detail)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load website details')
+    } finally {
+      setLoadingDetail(false)
+    }
   }
 
-  // Mock websites for now - replace with API call when available
-  const mockWebsites: Website[] = [
-    { id: '1', name: 'Website 1' },
-    { id: '2', name: 'Website 2' },
-  ]
+  const handleContentChange = (index: number, newContent: Content) => {
+    if (!websiteDetail) return
+    const newContentArray = [...websiteDetail.content]
+    newContentArray[index] = newContent
+    setWebsiteDetail({
+      ...websiteDetail,
+      content: newContentArray,
+    })
+  }
 
-  const displayWebsites = mockWebsites
+
+  const handleSave = async () => {
+    if (!websiteDetail || !selectedWebsite) return
+
+    setSaving(true)
+    setError(null)
+    setSuccessMessage(null)
+
+    try {
+      // Get current user ID from JWT token
+      const userId = getCurrentUserId()
+      if (!userId) {
+        setError('Unable to identify user. Please log in again.')
+        setSaving(false)
+        return
+      }
+
+      await updateWebsite(selectedWebsite, {
+        name: websiteDetail.name,
+        content: websiteDetail.content,
+        redactors: [userId], // Include current user as redactor
+      })
+
+      setSuccessMessage('Website updated successfully!')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save changes')
+    } finally {
+      setSaving(false)
+    }
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -88,9 +154,21 @@ function Dashboard() {
         <Toolbar>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             {selectedWebsite
-              ? `Editing: ${displayWebsites.find((w) => w.id === selectedWebsite)?.name || 'Website'}`
+              ? `Editing: ${websites.find((w) => w.id === selectedWebsite)?.name || 'Website'}`
               : 'Dashboard'}
           </Typography>
+          {selectedWebsite && websiteDetail && (
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />}
+              onClick={handleSave}
+              disabled={saving}
+              sx={{ ml: 2 }}
+            >
+              {saving ? 'Saving...' : 'Save Changes'}
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -166,35 +244,46 @@ function Dashboard() {
           >
             Websites
           </Typography>
-          <List>
-            {displayWebsites.map((website) => (
-              <ListItem key={website.id} disablePadding>
-                <ListItemButton
-                  selected={selectedWebsite === website.id}
-                  onClick={() => handleWebsiteSelect(website.id)}
-                  sx={{
-                    '&.Mui-selected': {
-                      backgroundColor: 'primary.light',
-                      '&:hover': {
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
+              <CircularProgress size={24} />
+            </Box>
+          ) : (
+            <List>
+              {websites.map((website) => (
+                <ListItem key={website.id} disablePadding>
+                  <ListItemButton
+                    selected={selectedWebsite === website.id}
+                    onClick={() => handleWebsiteSelect(website.id)}
+                    sx={{
+                      '&.Mui-selected': {
                         backgroundColor: 'primary.light',
+                        '&:hover': {
+                          backgroundColor: 'primary.light',
+                        },
                       },
-                    },
-                  }}
-                >
-                  <WebIcon sx={{ mr: 2, color: 'text.secondary' }} />
-                  <ListItemText primary={website.name} />
-                  {selectedWebsite === website.id && (
-                    <Chip
-                      label="Active"
-                      size="small"
-                      color="primary"
-                      sx={{ ml: 1 }}
-                    />
-                  )}
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+                    }}
+                  >
+                    <WebIcon sx={{ mr: 2, color: 'text.secondary' }} />
+                    <ListItemText primary={website.name} />
+                    {selectedWebsite === website.id && (
+                      <Chip
+                        label="Active"
+                        size="small"
+                        color="primary"
+                        sx={{ ml: 1 }}
+                      />
+                    )}
+                  </ListItemButton>
+                </ListItem>
+              ))}
+              {websites.length === 0 && !loading && (
+                <Typography variant="body2" color="text.secondary" sx={{ p: 2, textAlign: 'center' }}>
+                  No websites found
+                </Typography>
+              )}
+            </List>
+          )}
         </Box>
       </Drawer>
 
@@ -210,15 +299,60 @@ function Dashboard() {
       >
         <Toolbar />
         <Container maxWidth="lg">
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError(null)}>
+              {error}
+            </Alert>
+          )}
+          {successMessage && (
+            <Snackbar
+              open={!!successMessage}
+              autoHideDuration={6000}
+              onClose={() => setSuccessMessage(null)}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+              <Alert onClose={() => setSuccessMessage(null)} severity="success" sx={{ width: '100%' }}>
+                {successMessage}
+              </Alert>
+            </Snackbar>
+          )}
           {selectedWebsite ? (
             <Box>
-              <Typography variant="h4" gutterBottom>
-                {displayWebsites.find((w) => w.id === selectedWebsite)?.name}
-              </Typography>
-              <Typography variant="body1" color="text.secondary" paragraph>
-                Website content editor will be displayed here.
-              </Typography>
-              {/* TODO: Add website content editing interface */}
+              {loadingDetail ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+                  <CircularProgress />
+                </Box>
+              ) : websiteDetail ? (
+                <Box>
+                  <Typography variant="h4" gutterBottom>
+                    {websiteDetail.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" paragraph sx={{ mb: 3 }}>
+                    Edit the content elements below. Changes are saved when you click "Save Changes".
+                    You can add or remove elements within list and container types.
+                  </Typography>
+                  <Box sx={{ mt: 3 }}>
+                    {websiteDetail.content.map((content, index) => (
+                      <Box key={index} sx={{ position: 'relative', mb: 2 }}>
+                        <ContentEditor
+                          content={content}
+                          onChange={(newContent) => handleContentChange(index, newContent)}
+                          showRemove={false}
+                        />
+                      </Box>
+                    ))}
+                    {websiteDetail.content.length === 0 && (
+                      <Alert severity="info" sx={{ mb: 2 }}>
+                        This website has no content elements yet.
+                      </Alert>
+                    )}
+                  </Box>
+                </Box>
+              ) : (
+                <Alert severity="warning">
+                  Failed to load website details. Please try selecting the website again.
+                </Alert>
+              )}
             </Box>
           ) : (
             <Box>
@@ -232,6 +366,7 @@ function Dashboard() {
           )}
         </Container>
       </Box>
+
     </Box>
   )
 }

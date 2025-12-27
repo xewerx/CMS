@@ -45,7 +45,7 @@ function myMap() {
 
 // client section owl carousel
 $(".client_owl-carousel").owlCarousel({
-    loop: true,
+    loop: false,
     margin: 0,
     dots: false,
     nav: true,

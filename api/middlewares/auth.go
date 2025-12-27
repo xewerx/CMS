@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -30,6 +31,17 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
 			return jwtSecret, nil
 		})
+
+		exp, ok := token.Claims.(jwt.MapClaims)["exp"].(float64)
+		if !ok {
+			http.Error(w, "invalid token exp", http.StatusUnauthorized)
+			return
+		}
+
+		if time.Now().Unix() > int64(exp) {
+			http.Error(w, "token expired", http.StatusUnauthorized)
+			return
+		}
 
 		if err != nil || !token.Valid {
 			http.Error(w, "invalid token", http.StatusUnauthorized)
