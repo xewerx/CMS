@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -32,18 +32,11 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return jwtSecret, nil
 		})
 
-		exp, ok := token.Claims.(jwt.MapClaims)["exp"].(float64)
-		if !ok {
-			http.Error(w, "invalid token exp", http.StatusUnauthorized)
-			return
-		}
-
-		if time.Now().Unix() > int64(exp) {
-			http.Error(w, "token expired", http.StatusUnauthorized)
-			return
-		}
-
 		if err != nil || !token.Valid {
+			if errors.Is(err, jwt.ErrTokenExpired) {
+				http.Error(w, "token expired", http.StatusUnauthorized)
+				return
+			}
 			http.Error(w, "invalid token", http.StatusUnauthorized)
 			return
 		}
