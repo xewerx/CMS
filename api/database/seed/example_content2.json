@@ -1,0 +1,458 @@
+[
+  {
+    "id": "cmsLogo",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "TechStudio"
+  },
+  {
+    "id": "cmsNavList",
+    "path": "a",
+    "elements": [
+      {
+        "id": "",
+        "path": "",
+        "elements": null,
+        "type": "text",
+        "value": "Home"
+      },
+      {
+        "id": "",
+        "path": "",
+        "elements": null,
+        "type": "text",
+        "value": "Services"
+      },
+      {
+        "id": "",
+        "path": "",
+        "elements": null,
+        "type": "text",
+        "value": "Projects"
+      },
+      {
+        "id": "",
+        "path": "",
+        "elements": null,
+        "type": "text",
+        "value": "About"
+      },
+      {
+        "id": "",
+        "path": "",
+        "elements": null,
+        "type": "text",
+        "value": "Contact"
+      }
+    ],
+    "type": "list",
+    "value": ""
+  },
+  {
+    "id": "cmsHeroTitle",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "We Build Digital Experiences"
+  },
+  {
+    "id": "cmsHeroSubtitle",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "Transform your ideas into powerful web solutions with our expert development team."
+  },
+  {
+    "id": "cmsHeroButton",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "Get Started"
+  },
+  {
+    "id": "cmsHeroImage",
+    "path": "",
+    "elements": null,
+    "type": "image",
+    "value": "https://placehold.co/500x400"
+  },
+  {
+    "id": "cmsServicesTitle",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "Our Services"
+  },
+  {
+    "id": "cmsServicesList",
+    "path": ".service-card",
+    "elements": [
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": ".service-icon > img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/60"
+          },
+          {
+            "id": "",
+            "path": "h3",
+            "elements": null,
+            "type": "text",
+            "value": "Web Development"
+          },
+          {
+            "id": "",
+            "path": "p",
+            "elements": null,
+            "type": "text",
+            "value": "Custom websites built with modern technologies and best practices."
+          }
+        ]
+      },
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": ".service-icon > img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/60"
+          },
+          {
+            "id": "",
+            "path": "h3",
+            "elements": null,
+            "type": "text",
+            "value": "UI/UX Design"
+          },
+          {
+            "id": "",
+            "path": "p",
+            "elements": null,
+            "type": "text",
+            "value": "Beautiful and intuitive interfaces that users love."
+          }
+        ]
+      },
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": ".service-icon > img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/60"
+          },
+          {
+            "id": "",
+            "path": "h3",
+            "elements": null,
+            "type": "text",
+            "value": "Mobile Apps"
+          },
+          {
+            "id": "",
+            "path": "p",
+            "elements": null,
+            "type": "text",
+            "value": "Native and cross-platform mobile applications."
+          }
+        ]
+      }
+    ],
+    "type": "list",
+    "value": ""
+  },
+  {
+    "id": "cmsProjectsTitle",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "Recent Projects"
+  },
+  {
+    "id": "cmsProjectsList",
+    "path": ".project-card",
+    "elements": [
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": "img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/400x300"
+          },
+          {
+            "id": "",
+            "path": ".project-info > h3",
+            "elements": null,
+            "type": "text",
+            "value": "E-Commerce Platform"
+          },
+          {
+            "id": "",
+            "path": ".project-info > p",
+            "elements": null,
+            "type": "text",
+            "value": "A complete online shopping solution with payment integration."
+          }
+        ]
+      },
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": "img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/400x300"
+          },
+          {
+            "id": "",
+            "path": ".project-info > h3",
+            "elements": null,
+            "type": "text",
+            "value": "Portfolio Website"
+          },
+          {
+            "id": "",
+            "path": ".project-info > p",
+            "elements": null,
+            "type": "text",
+            "value": "Modern portfolio for a creative agency."
+          }
+        ]
+      },
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": "img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/400x300"
+          },
+          {
+            "id": "",
+            "path": ".project-info > h3",
+            "elements": null,
+            "type": "text",
+            "value": "Dashboard App"
+          },
+          {
+            "id": "",
+            "path": ".project-info > p",
+            "elements": null,
+            "type": "text",
+            "value": "Analytics dashboard with real-time data visualization."
+          }
+        ]
+      }
+    ],
+    "type": "list",
+    "value": ""
+  },
+  {
+    "id": "cmsAboutContainer",
+    "path": "",
+    "elements": [
+      {
+        "id": "",
+        "path": ".about-image > img",
+        "elements": null,
+        "type": "image",
+        "value": "https://placehold.co/500x400"
+      },
+      {
+        "id": "",
+        "path": ".about-content > h2",
+        "elements": null,
+        "type": "text",
+        "value": "About Us"
+      },
+      {
+        "id": "",
+        "path": ".about-content > p",
+        "elements": null,
+        "type": "text",
+        "value": "We are a team of passionate developers and designers dedicated to creating exceptional digital experiences. With years of experience in the industry, we help businesses grow through innovative technology solutions."
+      }
+    ],
+    "type": "container",
+    "value": ""
+  },
+  {
+    "id": "cmsTeamTitle",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "Our Team"
+  },
+  {
+    "id": "cmsTeamList",
+    "path": ".team-member",
+    "elements": [
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": "img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/200x200"
+          },
+          {
+            "id": "",
+            "path": "h3",
+            "elements": null,
+            "type": "text",
+            "value": "John Smith"
+          },
+          {
+            "id": "",
+            "path": "p",
+            "elements": null,
+            "type": "text",
+            "value": "CEO & Founder"
+          }
+        ]
+      },
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": "img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/200x200"
+          },
+          {
+            "id": "",
+            "path": "h3",
+            "elements": null,
+            "type": "text",
+            "value": "Sarah Johnson"
+          },
+          {
+            "id": "",
+            "path": "p",
+            "elements": null,
+            "type": "text",
+            "value": "Lead Designer"
+          }
+        ]
+      },
+      {
+        "id": "",
+        "path": "",
+        "value": "",
+        "type": "container",
+        "elements": [
+          {
+            "id": "",
+            "path": "img",
+            "elements": null,
+            "type": "image",
+            "value": "https://placehold.co/200x200"
+          },
+          {
+            "id": "",
+            "path": "h3",
+            "elements": null,
+            "type": "text",
+            "value": "Mike Davis"
+          },
+          {
+            "id": "",
+            "path": "p",
+            "elements": null,
+            "type": "text",
+            "value": "Senior Developer"
+          }
+        ]
+      }
+    ],
+    "type": "list",
+    "value": ""
+  },
+  {
+    "id": "cmsContactTitle",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "Get In Touch"
+  },
+  {
+    "id": "cmsContactInfo",
+    "path": "",
+    "elements": [
+      {
+        "id": "",
+        "path": ".contact-item:nth-child(1) > .contact-value",
+        "elements": null,
+        "type": "text",
+        "value": "hello@techstudio.com"
+      },
+      {
+        "id": "",
+        "path": ".contact-item:nth-child(2) > .contact-value",
+        "elements": null,
+        "type": "text",
+        "value": "+1 234 567 890"
+      },
+      {
+        "id": "",
+        "path": ".contact-item:nth-child(3) > .contact-value",
+        "elements": null,
+        "type": "text",
+        "value": "123 Tech Street, Digital City"
+      }
+    ],
+    "type": "container",
+    "value": ""
+  },
+  {
+    "id": "cmsFooterText",
+    "path": "",
+    "elements": null,
+    "type": "text",
+    "value": "2024 TechStudio. All rights reserved."
+  }
+]
