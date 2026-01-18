@@ -10,7 +10,18 @@ How to run:
 go run main.go
 ```
 
-# TODO:
+How to run tests
 
-- admin panel
-- api tests
+# All tests
+
+```
+cd api && go test ./...
+```
+
+# Specific test
+
+```
+cd api && go test -v ./middlewares
+cd api && go test -v ./services
+cd api && go test -v ./handlers/website/validation
+```
