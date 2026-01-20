@@ -18,15 +18,26 @@ import {
   CircularProgress,
   Alert,
   Snackbar,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material'
 import {
   Logout as LogoutIcon,
   Web as WebIcon,
   Person as PersonIcon,
   Save as SaveIcon,
+  Language as LanguageIcon,
+  Add as AddIcon,
 } from '@mui/icons-material'
-import { fetchWebsites, fetchWebsiteDetail, updateWebsite, getCurrentUserId } from '../utils/api'
+import { fetchWebsites, fetchWebsiteDetail, updateWebsite, createWebsite, getCurrentUserId } from '../utils/api'
 import type { Website, WebsiteDetail, Content } from '../types/website'
+import { SUPPORTED_LANGUAGES } from '../types/website'
 import ContentEditor from '../components/ContentEditor'
 
 const DRAWER_WIDTH = 280
@@ -35,12 +46,15 @@ function Dashboard() {
   const [username, setUsername] = useState<string>('')
   const [websites, setWebsites] = useState<Website[]>([])
   const [selectedWebsite, setSelectedWebsite] = useState<string | null>(null)
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en')
   const [websiteDetail, setWebsiteDetail] = useState<WebsiteDetail | null>(null)
   const [loading, setLoading] = useState(false)
   const [loadingDetail, setLoadingDetail] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [addLanguageDialogOpen, setAddLanguageDialogOpen] = useState(false)
+  const [newLanguage, setNewLanguage] = useState<string>('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -89,14 +103,78 @@ function Dashboard() {
     setWebsiteDetail(null)
     setError(null)
     setLoadingDetail(true)
+    setSelectedLanguage('en')
 
     try {
-      const detail = await fetchWebsiteDetail(websiteId)
+      const detail = await fetchWebsiteDetail(websiteId, 'en')
       setWebsiteDetail(detail)
+      if (detail.language) {
+        setSelectedLanguage(detail.language)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load website details')
     } finally {
       setLoadingDetail(false)
+    }
+  }
+
+  const handleLanguageChange = async (language: string) => {
+    if (!selectedWebsite) return
+
+    setSelectedLanguage(language)
+    setLoadingDetail(true)
+    setError(null)
+
+    try {
+      const detail = await fetchWebsiteDetail(selectedWebsite, language)
+      setWebsiteDetail(detail)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load language version')
+    } finally {
+      setLoadingDetail(false)
+    }
+  }
+
+  const getAvailableLanguages = () => {
+    if (!selectedWebsite) return []
+    const website = websites.find((w) => w.id === selectedWebsite)
+    return website?.available_languages || ['en']
+  }
+
+  const getUnavailableLanguages = () => {
+    const available = getAvailableLanguages()
+    return SUPPORTED_LANGUAGES.filter((lang) => !available.includes(lang.code))
+  }
+
+  const handleAddLanguageVersion = async () => {
+    if (!websiteDetail || !newLanguage) return
+
+    setSaving(true)
+    setError(null)
+
+    try {
+      const userId = getCurrentUserId()
+      if (!userId) {
+        setError('Unable to identify user. Please log in again.')
+        return
+      }
+
+      await createWebsite({
+        name: websiteDetail.name,
+        language: newLanguage,
+        content: websiteDetail.content,
+        redactors: [userId],
+      })
+
+      setSuccessMessage(`${newLanguage.toUpperCase()} version created successfully!`)
+      setAddLanguageDialogOpen(false)
+      setNewLanguage('')
+
+      await loadWebsites()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create language version')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -129,6 +207,7 @@ function Dashboard() {
 
       await updateWebsite(selectedWebsite, {
         name: websiteDetail.name,
+        language: websiteDetail.language,
         content: websiteDetail.content,
         redactors: [userId], // Include current user as redactor
       })
@@ -157,6 +236,43 @@ function Dashboard() {
               ? `Editing: ${websites.find((w) => w.id === selectedWebsite)?.name || 'Website'}`
               : 'Dashboard'}
           </Typography>
+
+          {selectedWebsite && (
+            <FormControl size="small" sx={{ minWidth: 120, mr: 2 }}>
+              <InputLabel sx={{ color: 'white' }}>Language</InputLabel>
+              <Select
+                value={selectedLanguage}
+                label="Language"
+                onChange={(e) => handleLanguageChange(e.target.value)}
+                sx={{
+                  color: 'white',
+                  '.MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255,255,255,0.5)' },
+                  '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255,255,255,0.7)' },
+                  '.MuiSvgIcon-root': { color: 'white' },
+                }}
+                startAdornment={<LanguageIcon sx={{ mr: 1, color: 'white' }} />}
+              >
+                {getAvailableLanguages().map((lang) => (
+                  <MenuItem key={lang} value={lang}>
+                    {SUPPORTED_LANGUAGES.find((l) => l.code === lang)?.name || lang.toUpperCase()}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+
+          {selectedWebsite && getUnavailableLanguages().length > 0 && (
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<AddIcon />}
+              onClick={() => setAddLanguageDialogOpen(true)}
+              sx={{ mr: 2 }}
+            >
+              Add Language
+            </Button>
+          )}
+
           {selectedWebsite && websiteDetail && (
             <Button
               variant="contained"
@@ -265,15 +381,25 @@ function Dashboard() {
                     }}
                   >
                     <WebIcon sx={{ mr: 2, color: 'text.secondary' }} />
-                    <ListItemText primary={website.name} />
-                    {selectedWebsite === website.id && (
-                      <Chip
-                        label="Active"
-                        size="small"
-                        color="primary"
-                        sx={{ ml: 1 }}
-                      />
-                    )}
+                    <Box sx={{ flexGrow: 1 }}>
+                      <ListItemText primary={website.name} />
+                      <Box sx={{ display: 'flex', gap: 0.5, mt: 0.5 }}>
+                        {website.available_languages?.map((lang) => (
+                          <Chip
+                            key={lang}
+                            label={lang.toUpperCase()}
+                            size="small"
+                            variant="outlined"
+                            color={
+                              lang === selectedLanguage && selectedWebsite === website.id
+                                ? 'primary'
+                                : 'default'
+                            }
+                            sx={{ height: 20, fontSize: '0.7rem' }}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
                   </ListItemButton>
                 </ListItem>
               ))}
@@ -367,6 +493,40 @@ function Dashboard() {
         </Container>
       </Box>
 
+      {/* Add Language Dialog */}
+      <Dialog open={addLanguageDialogOpen} onClose={() => setAddLanguageDialogOpen(false)}>
+        <DialogTitle>Add New Language Version</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            This will create a new version of "{websiteDetail?.name}" with the selected language.
+            Content will be copied from the current version as a starting point.
+          </Typography>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel>Language</InputLabel>
+            <Select
+              value={newLanguage}
+              label="Language"
+              onChange={(e) => setNewLanguage(e.target.value)}
+            >
+              {getUnavailableLanguages().map((lang) => (
+                <MenuItem key={lang.code} value={lang.code}>
+                  {lang.name} ({lang.code})
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setAddLanguageDialogOpen(false)}>Cancel</Button>
+          <Button
+            onClick={handleAddLanguageVersion}
+            variant="contained"
+            disabled={!newLanguage || saving}
+          >
+            {saving ? 'Creating...' : 'Create Version'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   )
 }

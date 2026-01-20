@@ -14,7 +14,13 @@ func GetWebsiteHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	websiteId := vars["websiteId"]
 
-	website, err := repositories.GetWebsiteById(websiteId)
+	// Get language query parameter (default to "en" if not specified)
+	language := r.URL.Query().Get("language")
+	if language == "" {
+		language = "en"
+	}
+
+	website, err := repositories.GetWebsiteByIdWithLanguage(websiteId, language)
 
 	if err != nil {
 		if err == repositories.ErrNotFound {

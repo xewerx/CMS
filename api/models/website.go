@@ -17,6 +17,7 @@ type Content struct {
 type Website struct {
 	ID        string    `bson:"_id,omitempty" json:"id,omitempty"`
 	Name      string    `bson:"name" json:"name"`
+	Language  string    `bson:"language" json:"language"`
 	Content   []Content `bson:"content" json:"content"`
 	Redactors []string  `bson:"redactors" json:"redactors"`
 	CreatedAt time.Time `bson:"created_at" json:"created_at"`
@@ -26,6 +27,7 @@ type Website struct {
 func FromCreateWebsiteDto(c dto.CreateWebsiteDto) Website {
 	return Website{
 		Name:      c.Name,
+		Language:  c.Language,
 		Content:   FromContentList(c.Content),
 		Redactors: c.Redactors,
 		CreatedAt: time.Now(),
@@ -36,6 +38,7 @@ func FromCreateWebsiteDto(c dto.CreateWebsiteDto) Website {
 func FromUpdateWebsiteDto(c dto.UpdateWebsiteDto) Website {
 	return Website{
 		Name:      c.Name,
+		Language:  c.Language,
 		Content:   FromContentList(c.Content),
 		Redactors: c.Redactors,
 		UpdatedAt: time.Now(),
@@ -59,9 +62,10 @@ func FromContent(c dto.Content) Content {
 
 func ToWebsiteDto(w Website) dto.GetWebsiteDto {
 	return dto.GetWebsiteDto{
-		ID:      w.ID,
-		Name:    w.Name,
-		Content: ToContentList(w.Content),
+		ID:       w.ID,
+		Name:     w.Name,
+		Language: w.Language,
+		Content:  ToContentList(w.Content),
 	}
 }
 

@@ -1,6 +1,22 @@
 const cmsConfig = {
     apiUrl: 'http://localhost:3000',
     websiteId: '6935afa33a89190c80a56dd3',
+    language: 'en',
+}
+
+// Get language from URL query parameter or HTML lang attribute
+const getLanguage = () => {
+    // Priority 1: URL query parameter (?lang=pl)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    if (urlLang) return urlLang;
+
+    // Priority 2: HTML lang attribute
+    const htmlLang = document.documentElement.lang;
+    if (htmlLang) return htmlLang.split('-')[0];
+
+    // Priority 3: Config default
+    return cmsConfig.language;
 }
 
 const handleText = (item) => {
@@ -97,7 +113,8 @@ const handleContainer = (item, targetElement) => {
 
 
 const loadContent = async () => {
-    const response = await fetch(`${cmsConfig.apiUrl}/websites/${cmsConfig.websiteId}`, {
+    const language = getLanguage();
+    const response = await fetch(`${cmsConfig.apiUrl}/websites/${cmsConfig.websiteId}?language=${language}`, {
         headers: {
             'Content-Type': 'application/json',
         },

@@ -12,19 +12,17 @@ import (
 func GetWebsitesHandler(w http.ResponseWriter, r *http.Request) {
 	var userId = r.Context().Value(middleware.UserIdContextKey).(string)
 
-	websites, err := repositories.GetWebsitesByUserId(userId)
+	// Use aggregation to group websites by name and collect available languages
+	websitesDto, err := repositories.GetWebsitesGroupedByName(userId)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	websitesDto := make([]dto.GetWebsitesDto, len(websites))
-	for i, website := range websites {
-		websitesDto[i] = dto.GetWebsitesDto{
-			ID:   website.ID,
-			Name: website.Name,
-		}
+	// Handle nil slice case
+	if websitesDto == nil {
+		websitesDto = []dto.GetWebsitesDto{}
 	}
 
 	w.Header().Set("Content-Type", "application/json")

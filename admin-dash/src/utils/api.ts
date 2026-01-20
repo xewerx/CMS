@@ -1,4 +1,4 @@
-import type { Website, WebsiteDetail, UpdateWebsiteDto } from '../types/website'
+import type { Website, WebsiteDetail, UpdateWebsiteDto, CreateWebsiteDto } from '../types/website'
 
 const API_BASE_URL = 'http://localhost:3000'
 
@@ -39,8 +39,15 @@ export async function fetchWebsites(): Promise<Website[]> {
   return response.json()
 }
 
-export async function fetchWebsiteDetail(websiteId: string): Promise<WebsiteDetail> {
-  const response = await fetch(`${API_BASE_URL}/websites/${websiteId}`, {
+export async function fetchWebsiteDetail(
+  websiteId: string,
+  language?: string
+): Promise<WebsiteDetail> {
+  const url = language
+    ? `${API_BASE_URL}/websites/${websiteId}?language=${language}`
+    : `${API_BASE_URL}/websites/${websiteId}`
+
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -78,5 +85,23 @@ export async function updateWebsite(
 
 export function getCurrentUserId(): string | null {
   return getUserIdFromToken()
+}
+
+export async function createWebsite(data: CreateWebsiteDto): Promise<void> {
+  const userId = getUserIdFromToken()
+  if (userId && !data.redactors.includes(userId)) {
+    data.redactors = [...data.redactors, userId]
+  }
+
+  const response = await fetch(`${API_BASE_URL}/websites`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    throw new Error(errorText || 'Failed to create website')
+  }
 }
 

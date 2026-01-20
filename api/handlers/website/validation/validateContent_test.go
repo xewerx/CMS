@@ -233,6 +233,7 @@ func TestCreateWebsiteDto_Validation(t *testing.T) {
 			name: "valid create website dto",
 			dto: dto.CreateWebsiteDto{
 				Name:      "My Website",
+				Language:  "en",
 				Content:   []dto.Content{{Type: "text", Value: "Hello"}},
 				Redactors: []string{"user123"},
 			},
@@ -242,6 +243,7 @@ func TestCreateWebsiteDto_Validation(t *testing.T) {
 			name: "name too short",
 			dto: dto.CreateWebsiteDto{
 				Name:      "AB",
+				Language:  "en",
 				Content:   []dto.Content{{Type: "text", Value: "Hello"}},
 				Redactors: []string{"user123"},
 			},
@@ -251,6 +253,7 @@ func TestCreateWebsiteDto_Validation(t *testing.T) {
 			name: "empty redactors",
 			dto: dto.CreateWebsiteDto{
 				Name:      "My Website",
+				Language:  "en",
 				Content:   []dto.Content{{Type: "text", Value: "Hello"}},
 				Redactors: []string{},
 			},
@@ -260,6 +263,7 @@ func TestCreateWebsiteDto_Validation(t *testing.T) {
 			name: "empty content array passes required check (note: may want min=1)",
 			dto: dto.CreateWebsiteDto{
 				Name:      "My Website",
+				Language:  "en",
 				Content:   []dto.Content{},
 				Redactors: []string{"user123"},
 			},

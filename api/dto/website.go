@@ -10,23 +10,27 @@ type Content struct {
 
 type UpdateWebsiteDto struct {
 	Name      string    `json:"name" validate:"required,min=3"`
+	Language  string    `json:"language" validate:"required,min=2,max=5"`
 	Content   []Content `json:"content" validate:"required,dive,content"`
 	Redactors []string  `json:"redactors" validate:"required,min=1,dive,required"`
 }
 
 type CreateWebsiteDto struct {
 	Name      string    `json:"name" validate:"required,min=3"`
+	Language  string    `json:"language" validate:"required,min=2,max=5"`
 	Content   []Content `json:"content" validate:"required,dive,content"`
 	Redactors []string  `json:"redactors" validate:"required,min=1,dive,required"`
 }
 
 type GetWebsitesDto struct {
-	ID   string `json:"id,omitempty"`
-	Name string `json:"name"`
+	ID                 string   `json:"id,omitempty"`
+	Name               string   `json:"name"`
+	AvailableLanguages []string `json:"available_languages"`
 }
 
 type GetWebsiteDto struct {
-	ID      string    `json:"id,omitempty"`
-	Name    string    `json:"name"`
-	Content []Content `json:"content"`
+	ID       string    `json:"id,omitempty"`
+	Name     string    `json:"name"`
+	Language string    `json:"language"`
+	Content  []Content `json:"content"`
 }
