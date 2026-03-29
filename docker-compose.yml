@@ -1,7 +1,5 @@
 version: "3.8"
 services:
-  # TODO: api, admin dash, website - all under docker compose
-
   mongo:
     image: mongo:6.0
     container_name: mongo_dev
@@ -12,6 +10,44 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - mongo-data:/data/db
+
+  api:
+    build: ./api
+    container_name: cms_api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      MONGO_URL: "mongodb://root:example@mongo:27017/?authSource=admin"
+      MONGO_DB_NAME: "name"
+      JWT_SECRET: "JWT_SECRET"
+      JWT_EXPIRE_TIME_IN_SECONDS: "600"
+    depends_on:
+      - mongo
+
+  admin-dash:
+    build: ./admin-dash
+    container_name: cms_admin_dash
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+  website1:
+    build: ./websites/website1
+    container_name: cms_website1
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+
+  website2:
+    build: ./websites/website2
+    container_name: cms_website2
+    ports:
+      - "8082:80"
+    depends_on:
+      - api
 
 volumes:
   mongo-data:
