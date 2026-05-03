@@ -3,7 +3,7 @@ db = db.getSiblingDB("website");
 db.users.drop();
 db.websites.drop();
 
-// User: admin / password123
+// User: admin / password
 // Password hashed with bcrypt
 db.users.insertOne({
   _id: ObjectId("693ea6a69f9fc34c997e8e4e"),
