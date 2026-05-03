@@ -1,6 +1,6 @@
 import type { Website, WebsiteDetail, UpdateWebsiteDto, CreateWebsiteDto } from '../types/website'
 
-const API_BASE_URL = 'http://localhost:3000'
+const API_BASE_URL = 'http://127.0.0.1:3000'
 
 function getAuthHeaders(): HeadersInit {
   const token = localStorage.getItem('accessToken')
